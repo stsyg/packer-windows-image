@@ -10,14 +10,24 @@ terraform {
 
 # Create resource group used to deploy final image
 resource "azurerm_resource_group" "packer_artifacts" {
-  name     = "packer-artifacts-rg"
-  location = canadacentral
+  location = var.deploy_location
+  name     = var.rg_artifacts
+    tags = {
+    environment = "Dev"
+    app         = "Packer Image Builder"
+    provisioner = "Terraform"
+  }
 }
 
 # Create resource group used during the image build
 resource "azurerm_resource_group" "packer_build" {
-  name     = "packer-build-rg"
-  location = canadacentral
+  location = var.deploy_location
+  name     = var.rg_build
+    tags = {
+    environment = "Dev"
+    app         = "Packer Image Builder"
+    provisioner = "Terraform"
+  }
 }
 
 # Register applicaiton within Azure Active Directory
