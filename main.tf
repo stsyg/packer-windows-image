@@ -35,13 +35,22 @@ resource "azurerm_resource_group" "packer_build" {
 #   display_name = "packer-sp-app"
 # }
 
-data "azuread_application" "packer" {
-  display_name = "Azure SPN"
+data "azuread_client_config" "current" {}
+
+resource "azuread_application" "packer" {
+  display_name = "st-packer-sp-app"
+  owners       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_service_principal" "packer" {
+  application_id               = azuread_application.packer.application_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
 }
 
 # Create service principal associated with an application within Azure Active Directory
 resource "azuread_service_principal" "packer" {
-  application_id = data.azuread_application.packer.application_id
+  application_id = azuread_application.packer.application_id
 }
 
 # Create password credential associated with a service principal within Azure Active Directory
