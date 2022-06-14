@@ -1,4 +1,14 @@
-﻿# Create resource group used to deploy final image
+﻿# Terraform Cloud configuration
+terraform {
+        backend "remote" {
+            organization = "The38Dev"
+            workspaces {
+                name = "packer-windows-image"
+            }
+        }
+}
+
+# Create resource group used to deploy final image
 resource "azurerm_resource_group" "packer_artifacts" {
   name     = "packer-artifacts-rg"
   location = canadacentral
