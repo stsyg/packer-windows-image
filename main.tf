@@ -31,8 +31,12 @@ resource "azurerm_resource_group" "packer_build" {
 }
 
 # Register applicaiton within Azure Active Directory
-resource "azuread_application" "packer" {
-  display_name = "packer-sp-app"
+# resource "azuread_application" "packer" {
+#   display_name = "packer-sp-app"
+# }
+
+data "azuread_application" "packer" {
+  display_name = "Azure SPN"
 }
 
 # Create service principal associated with an application within Azure Active Directory
