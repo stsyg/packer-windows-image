@@ -48,3 +48,4 @@ resource "azurerm_role_assignment" "packer_artifacts_contributor" {
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.packer.id
 }
+
