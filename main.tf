@@ -43,9 +43,9 @@ resource "azuread_application" "packer" {
 }
 
 # Create service principal associated with an application within Azure Active Directory
-resource "azuread_service_principal" "packer" {
-  application_id = azuread_application.packer.application_id
-}
+# resource "azuread_service_principal" "packer" {
+#   application_id = azuread_application.packer.application_id
+# }
 
 resource "azuread_service_principal" "packer" {
   application_id               = azuread_application.packer.application_id
