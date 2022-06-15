@@ -9,7 +9,7 @@ When authenticated with a service principal, this code requires one of the follo
 
 When authenticated with a user principal, this resource requires one of the following directory roles: Application Administrator or Global Administrator. 
 
-[The more informaiton can be found here.](https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-cli) 
+The more informaiton can be found here: https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-cli
 
 The script below is an example 
 ```
@@ -20,7 +20,7 @@ az role assignment create --assignee "{Azure SPN object ID}" \
 
 ## GitHub Action Secrets
 
-Create a Personal Access Token with write permissions to the repo.
+Create a Personal Access Token with write permissions to the repo. The more informaiton can be found here: https://docs.github.com/en/rest/actions/secrets#get-a-repository-public-key
 
 Set environment variables in Terraform and specify following:
 GITHUB_TOKEN=<Personal Access Token with write permissions>
