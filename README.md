@@ -17,3 +17,11 @@ az role assignment create --assignee "{Azure SPN object ID}" \
 --role "Application Administrator" \
 --subscription "{subscriptionNameOrId}"
 ```
+
+## GitHub Action Secrets
+
+Create a Personal Access Token with write permissions to the repo.
+
+Set environment variables in Terraform and specify following:
+GITHUB_TOKEN=<Personal Access Token with write permissions>
+GITHUB_OWNER=<owner_name>
