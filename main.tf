@@ -116,7 +116,7 @@ resource "github_actions_secret" "packer_tenant_id" {
 
 # Export Azure credentials and upload them to GitHub secrets
 resource "github_actions_secret" "github_actions_azure_credentials" {
-  repository  = data.github_repository.packer_windows_avd.name
+  repository  = data.github_repository.packer_windows_image.name
   secret_name = "AZURE_CREDENTIALS"
 
   plaintext_value = jsonencode(
