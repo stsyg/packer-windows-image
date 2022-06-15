@@ -82,3 +82,34 @@ resource "azurerm_role_assignment" "packer_artifacts_contributor" {
   principal_id         = azuread_service_principal.packer.id
 }
 
+# Retrieve details of the GitHub repository using a search query
+# https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/repositories
+data "github_repository" "packer_windows_image" {
+  full_name = "stsyg/packer-windows-image"
+}
+
+# Create and manage GitHub Actions secrets within your GitHub repositories
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret
+resource "github_actions_secret" "packer_client_id" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_CLIENT_ID"
+  plaintext_value = azuread_application.packer.application_id
+}
+
+resource "github_actions_secret" "packer_client_secret" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_CLIENT_SECRET"
+  plaintext_value = azuread_service_principal_password.packer.value
+}
+
+resource "github_actions_secret" "packer_subscription_id" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_SUBSCRIPTION_ID"
+  plaintext_value = data.azurerm_subscription.subscription.subscription_id
+}
+
+resource "github_actions_secret" "packer_tenant_id" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_TENANT_ID"
+  plaintext_value = data.azurerm_subscription.subscription.tenant_id
+}
