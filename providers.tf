@@ -8,10 +8,6 @@
       source = "hashicorp/azuread"
       version = "~>2.23.0"
     }
-    github = {
-      source  = "integrations/github"
-      version = "~> 4.3.0"
-    }
   }
 }
 

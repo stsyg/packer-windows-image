@@ -113,3 +113,18 @@ resource "github_actions_secret" "packer_tenant_id" {
   secret_name     = "PACKER_TENANT_ID"
   plaintext_value = data.azurerm_subscription.subscription.tenant_id
 }
+
+# Export Azure credentials and upload them to GitHub secrets
+resource "github_actions_secret" "github_actions_azure_credentials" {
+  repository  = data.github_repository.packer_windows_avd.name
+  secret_name = "AZURE_CREDENTIALS"
+
+  plaintext_value = jsonencode(
+    {
+      clientId       = azuread_application.packer.application_id
+      clientSecret   = azuread_service_principal_password.packer.value
+      subscriptionId = data.azurerm_subscription.subscription.subscription_id
+      tenantId       = data.azurerm_subscription.subscription.tenant_id
+    }
+  )
+}
