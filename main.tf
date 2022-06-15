@@ -31,11 +31,11 @@ resource "azurerm_resource_group" "packer_build" {
 }
 
 # Register applicaiton within Azure Active Directory
-# resource "azuread_application" "packer" {
-#   display_name = "packer-sp-app"
-# }
+resource "azuread_application" "packer" {
+  display_name = "packer-sp-app"
+}
 
-data "azuread_client_config" "current" {}
+# data "azuread_client_config" "current" {}
 
 resource "azuread_application" "packer" {
   display_name = "st-packer-sp-app"
