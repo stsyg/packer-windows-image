@@ -38,7 +38,7 @@ resource "azurerm_resource_group" "packer_build" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "packer" {
-  display_name = "st-packer-sp-app"
+  display_name = "packer-sp-app"
   owners       = [data.azuread_client_config.current.object_id]
 }
 
