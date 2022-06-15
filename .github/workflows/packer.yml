@@ -35,7 +35,6 @@ jobs:
                 --publisher "${IMAGE_PUBLISHER}" \
                 --offer "${IMAGE_OFFER}" \
                 --sku "${IMAGE_SKU}" \
-                --all \
                 --query "[*].version | sort(@)[-1:]" \
                 --out tsv
             )
