@@ -128,3 +128,16 @@ resource "github_actions_secret" "github_actions_azure_credentials" {
     }
   )
 }
+
+# Export the names of resource groups to GitHub secrets
+resource "github_actions_secret" "packer_artifacts_resource_group" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_ARTIFACTS_RESOURCE_GROUP"
+  plaintext_value = azurerm_resource_group.packer_artifacts.name
+}
+
+resource "github_actions_secret" "packer_build_resource_group" {
+  repository      = data.github_repository.packer_windows_image.name
+  secret_name     = "PACKER_BUILD_RESOURCE_GROUP"
+  plaintext_value = azurerm_resource_group.packer_build.name
+}
