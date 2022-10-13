@@ -15,3 +15,9 @@ variable "rg_build" {
   default     = "packer-build-rg"
   description = "Name of the resource group used during the image build"
 }
+
+variable "GALLERY_RESOURCE_GROUP" {
+  type        = string
+  default     = "packer-build-rg"
+  description = "Name of the resource group used during the image build"
+}
