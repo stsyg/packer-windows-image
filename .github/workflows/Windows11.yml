@@ -37,6 +37,7 @@ jobs:
                 --sku "${IMAGE_SKU}" \
                 --query "[*].version | sort(@)[-1:]" \
                 --out tsv
+                --all
             )
 
             echo "Publisher: ${IMAGE_PUBLISHER}"
