@@ -9,6 +9,12 @@
       version = "~>2.23.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "infra-storage-rg"
+    storage_account_name = "infrastoraged103"
+    container_name       = "infrastoragetfstate"
+    key                  = "lab.packerwindowsimage.tfstate"
+  }
 }
 
 provider "azurerm" {
