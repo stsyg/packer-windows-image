@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature_sig
   schedule:
     - cron: 0 0 * * *
 
@@ -28,7 +29,7 @@ jobs:
         id: get_latest_version
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.37.0
+          azcliversion: 2.41.0
           inlineScript: |
             latest_version=$(
               az vm image list \
@@ -63,7 +64,7 @@ jobs:
         id: get_image
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.37.0
+          azcliversion: 2.41.0
           inlineScript: |
             if az image show \
               --resource-group "${{ secrets.PACKER_ARTIFACTS_RESOURCE_GROUP }}" \
@@ -124,7 +125,7 @@ jobs:
       - name: Cleanup Resource Group
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.37.0
+          azcliversion: 2.41.0
           inlineScript: |
             az deployment group create \
               --mode Complete \

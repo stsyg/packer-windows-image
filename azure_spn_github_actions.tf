@@ -67,8 +67,8 @@ resource "azurerm_role_assignment" "packer_build_contributor" {
 }
 
 # Assign RBAC Contributor role to previously created Azure SPN  with the scope to second RG
-resource "azurerm_role_assignment" "packer_artifacts_contributor" {
-  scope                = azurerm_resource_group.packer_artifacts.id
+resource "azurerm_role_assignment" "packer_sig_contributor" {
+  scope                = azurerm_resource_group.packer_sig.id
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.this.id
 }
@@ -132,12 +132,12 @@ resource "github_actions_secret" "github_actions_azure_credentials" {
 }
 
 # Export the names of both resource groups to GitHub secrets
-resource "github_actions_secret" "packer_artifacts_resource_group" {
+resource "github_actions_secret" "packer_sig_resource_group" {
   repository      = local.github_name
-  secret_name     = "PACKER_ARTIFACTS_RESOURCE_GROUP"
+  secret_name     = "PACKER_SIG_RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: Not an issue
   # checkov:skip=CKV_GIT_4: Not an issue with this secret name
-  plaintext_value = azurerm_resource_group.packer_artifacts.name
+  plaintext_value = azurerm_resource_group.packer_sig.name
 }
 
 resource "github_actions_secret" "packer_build_resource_group" {

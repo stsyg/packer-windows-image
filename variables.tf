@@ -14,3 +14,8 @@ variable "default_tags" {
   type        = map(string)
   description = "Default tags to add to deployed resources"
 }
+
+variable "image_details" {
+  type        = map(string)
+  description = "Image dettails, i.e. Publisher, Offer and SKU"
+}
