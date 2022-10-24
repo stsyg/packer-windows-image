@@ -90,7 +90,7 @@ resource "github_actions_secret" "packer_client_id" {
   repository      = local.github_name
   secret_name     = "PACKER_CLIENT_ID"
 	# checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = azuread_application.this.application_id
+  plaintext_value = azuread_application.this.application_id
 }
 
 resource "github_actions_secret" "packer_client_secret" {
