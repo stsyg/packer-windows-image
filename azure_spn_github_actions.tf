@@ -90,28 +90,28 @@ resource "github_actions_secret" "packer_client_id" {
   repository      = local.github_name
   secret_name     = "PACKER_CLIENT_ID"
 	# checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = azuread_application.this.application_id
+  encrypted_value = azuread_application.this.application_id
 }
 
 resource "github_actions_secret" "packer_client_secret" {
   repository      = local.github_name
   secret_name     = "PACKER_CLIENT_SECRET"
 	# checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = azuread_service_principal_password.this.value
+  encrypted_value = azuread_service_principal_password.this.value
 }
 
 resource "github_actions_secret" "packer_subscription_id" {
   repository      = local.github_name
   secret_name     = "PACKER_SUBSCRIPTION_ID"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = data.azurerm_subscription.this.subscription_id
+  encrypted_value = data.azurerm_subscription.this.subscription_id
 }
 
 resource "github_actions_secret" "packer_tenant_id" {
   repository      = local.github_name
   secret_name     = "PACKER_TENANT_ID"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = data.azurerm_subscription.this.tenant_id
+  encrypted_value = data.azurerm_subscription.this.tenant_id
 }
 
 # Export Azure credentials and upload them to GitHub secrets
@@ -120,7 +120,7 @@ resource "github_actions_secret" "github_actions_azure_credentials" {
   secret_name = "AZURE_CREDENTIALS"
   # checkov:skip=CKV_SECRET_6: Not an issue
 
-  plaintext_value = jsonencode(
+  encrypted_value = jsonencode(
     {
       clientId       = azuread_application.this.application_id
       clientSecret   = azuread_service_principal_password.this.value
@@ -135,12 +135,12 @@ resource "github_actions_secret" "packer_artifacts_resource_group" {
   repository      = local.github_name
   secret_name     = "PACKER_ARTIFACTS_RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = azurerm_resource_group.packer_artifacts.name
+  encrypted_value = azurerm_resource_group.packer_artifacts.name
 }
 
 resource "github_actions_secret" "packer_build_resource_group" {
   repository      = local.github_name
   secret_name     = "PACKER_BUILD_RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  plaintext_value = azurerm_resource_group.packer_build.name
+  encrypted_value = azurerm_resource_group.packer_build.name
 }
