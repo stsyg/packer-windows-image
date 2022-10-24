@@ -1,4 +1,5 @@
 ﻿# Create resource group used to deploy final image
+
 resource "azurerm_resource_group" "packer_artifacts" {
   location = var.deploy_location
   name     = var.rg_artifacts

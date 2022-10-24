@@ -1,4 +1,4 @@
-﻿name: Packer
+﻿name: 2019-Datacenter
 
 on:
   push:
@@ -35,6 +35,7 @@ jobs:
                 --publisher "${IMAGE_PUBLISHER}" \
                 --offer "${IMAGE_OFFER}" \
                 --sku "${IMAGE_SKU}" \
+                --all \
                 --query "[*].version | sort(@)[-1:]" \
                 --out tsv
             )
