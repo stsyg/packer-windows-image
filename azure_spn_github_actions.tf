@@ -4,6 +4,7 @@
 # 1. Azure Managed Identity for the specified group
 # 2. Create, extract and upload Azure SPN data. This Azure SPN will be used by GitHub Actions
 # 3. Upload Azure SPN data to GitHub Actions of current repo 
+###################################################################
 
 # Fetch information about the configuration of the AzureRM provider
 data "azuread_client_config" "current" {}
