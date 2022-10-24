@@ -83,12 +83,14 @@ data "github_repository" "packer_windows_image" {
 resource "github_actions_secret" "packer_client_id" {
   repository      = data.github_repository.packer_windows_image.name
   secret_name     = "PACKER_CLIENT_ID"
+	# checkov:skip=CKV_SECRET_6: ADD REASON
   plaintext_value = azuread_application.packer.application_id
 }
 
 resource "github_actions_secret" "packer_client_secret" {
   repository      = data.github_repository.packer_windows_image.name
   secret_name     = "PACKER_CLIENT_SECRET"
+	# checkov:skip=CKV_SECRET_6: ADD REASON
   plaintext_value = azuread_service_principal_password.packer.value
 }
 
