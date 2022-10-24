@@ -97,21 +97,21 @@ resource "github_actions_secret" "packer_client_secret" {
   repository      = local.github_name
   secret_name     = "PACKER_CLIENT_SECRET"
 	# checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = azuread_service_principal_password.this.value
+  plaintext_value = azuread_service_principal_password.this.value
 }
 
 resource "github_actions_secret" "packer_subscription_id" {
   repository      = local.github_name
   secret_name     = "PACKER_SUBSCRIPTION_ID"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = data.azurerm_subscription.this.subscription_id
+  plaintext_value = data.azurerm_subscription.this.subscription_id
 }
 
 resource "github_actions_secret" "packer_tenant_id" {
   repository      = local.github_name
   secret_name     = "PACKER_TENANT_ID"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = data.azurerm_subscription.this.tenant_id
+  plaintext_value = data.azurerm_subscription.this.tenant_id
 }
 
 # Export Azure credentials and upload them to GitHub secrets
@@ -120,7 +120,7 @@ resource "github_actions_secret" "github_actions_azure_credentials" {
   secret_name = "AZURE_CREDENTIALS"
   # checkov:skip=CKV_SECRET_6: Not an issue
 
-  encrypted_value = jsonencode(
+  plaintext_value = jsonencode(
     {
       clientId       = azuread_application.this.application_id
       clientSecret   = azuread_service_principal_password.this.value
@@ -135,12 +135,14 @@ resource "github_actions_secret" "packer_artifacts_resource_group" {
   repository      = local.github_name
   secret_name     = "PACKER_ARTIFACTS_RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = azurerm_resource_group.packer_artifacts.name
+  # checkov:skip=CKV_GIT_4: Not an issue with this secret name
+  plaintext_value = azurerm_resource_group.packer_artifacts.name
 }
 
 resource "github_actions_secret" "packer_build_resource_group" {
   repository      = local.github_name
   secret_name     = "PACKER_BUILD_RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: Not an issue
-  encrypted_value = azurerm_resource_group.packer_build.name
+  # checkov:skip=CKV_GIT_4: Not an issue with this secret name
+  plaintext_value = azurerm_resource_group.packer_build.name
 }
