@@ -1,9 +1,10 @@
-﻿name: Windows11
+﻿name: Windows11_Auto
 
 on:
   push:
     branches:
       - main
+      - feature_sig
   schedule:
     - cron: 0 0 * * *
 
@@ -85,17 +86,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      # validate templates
       - name: Validate Packer Template
         uses: hashicorp/packer-github-actions@master
         with:
           command: validate
           arguments: -syntax-only
+          target: windows11.pkr.hcl
 
+      # build artifact
       - name: Build Packer Image
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
           arguments: -color=false -on-error=abort
+          target: windows11.pkr.hcl
         env:
           PKR_VAR_client_id: ${{ secrets.PACKER_CLIENT_ID }}
           PKR_VAR_client_secret: ${{ secrets.PACKER_CLIENT_SECRET }}
