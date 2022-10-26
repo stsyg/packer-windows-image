@@ -147,3 +147,21 @@ resource "github_actions_secret" "packer_build_resource_group" {
   # checkov:skip=CKV_GIT_4: Not an issue with this secret name
   plaintext_value = azurerm_resource_group.packer_build.name
 }
+
+# Export Image details to GitHub secrets
+resource "github_actions_secret" "github_actions_image_details" {
+  repository  = local.github_name
+  secret_name = "PACKER_IMAGE_DETAILS"
+  # checkov:skip=CKV_SECRET_6: Not an issue
+
+  plaintext_value = jsonencode(
+    {
+      image_publisher = var.image_details.publisher
+      image_offer = var.image_details.offer
+      image_sku = var.image_details.sku
+      image_version = "1.0"
+      managed_image_name = azurerm_shared_image.this.name
+      image_name = azurerm_shared_image.this.name
+    }
+  )
+}
