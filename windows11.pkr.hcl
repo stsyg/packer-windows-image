@@ -27,8 +27,8 @@ locals {
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "azure-arm" "this" {
-  build_resource_group_name              = "${azurerm_resource_group.packer_build.name}"
-  client_id                              = "${azuread_service_principal_password.this.value}"
+  build_resource_group_name              = "${secrets.PACKER_BUILD_RESOURCE_GROUP}"
+  client_id                              = "${secrets.PACKER_CLIENT_ID}"
   client_secret                          = "${azuread_service_principal_password.this.value}"
   communicator                           = "winrm"
   image_offer                            = "${var.image_details.offer}"
@@ -101,7 +101,7 @@ build {
     inline = [
       "while ((Get-Service RdAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
       "while ((Get-Service WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
-      "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit",
+      "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit /mode:vm",
       "while ($true) { $imageState = Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Setup\\State | Select ImageState; if($imageState.ImageState -ne 'IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE') { Write-Output $imageState.ImageState; Start-Sleep -s 10  } else { break } }"
     ]
   }
