@@ -22,33 +22,6 @@ variable "build_resource_group_name" {
   description = "Packer Build Resource Group."
 }
 
-// variable "chef_boot" {
-//   type    = string
-//   default = "custom"
-// }
-
-// variable "chef_env" {
-//   type    = string
-//   default = "nonproduction"
-// }
-
-// variable "chef_json" {
-//   type        = string
-//   description = "(Optional) Specify a custom chef overide JSON to download."
-//   default     = https://artifactory.platform.manulife.io/artifactory/chef-local/auth/first-boot-ggy-custom.json
-// }
-
-// variable "chef_bootstrap_uri"{
-//   type        = string
-//   description = "(Required) Manulife Bootstrap script URL to download and trigger chef"
-//   default     = https://artifactory.platform.manulife.io/artifactory/chef-local/auth/Chef-BootstrapWin.ps1
-// }
-
-// variable "chef_server" {
-//   type    = string
-//   default = "NA"
-// }
-
 variable "client_id" {
   type    = string
 #  default = "${env("ARM_CLIENT_ID")}"
@@ -61,22 +34,6 @@ variable "client_secret" {
   sensitive = true
   description = "Azure Service Principal Secret."
 }
-
-// variable "file_share" {
-//   type    = string
-//   default = ""
-// }
-
-// variable "file_share_pass" {
-//   type      = string
-//   default   = ""
-//   sensitive = true
-// }
-
-// variable "file_share_user" {
-//   type      = string
-//   default   = ""
-// }
 
 variable "image_offer" {
   type    = string
