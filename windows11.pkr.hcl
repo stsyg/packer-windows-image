@@ -18,7 +18,7 @@
 
 variable "build_resource_group_name" {
   type    = string
-#  default = "${env("PACKER_BUILD_RESOURCE_GROUP")}"
+  default = "${env("PACKER_BUILD_RESOURCE_GROUP")}"
   description = "Packer Build Resource Group."
 }
 
