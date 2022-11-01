@@ -116,7 +116,7 @@ variable "local_admins" {
 
 variable "managed_image_name"{
   type = string
-#  default = "${env("SHARED_IMAGE_NAME")}"
+  default = "${env("SHARED_IMAGE_NAME")}"
   description = "Image name."
 }
 
