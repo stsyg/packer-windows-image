@@ -34,7 +34,7 @@ source "azure-arm" "this" {
   image_offer                            = "${secrets.PACKER_IMAGE_DETAILS}"
   image_publisher                        = "${secrets.PACKER_IMAGE_DETAILS}"
   image_sku                              = "${secrets.PACKER_IMAGE_DETAILS}"
-  image_version                          = "${var.image_version}"
+  image_version                          = "${secrets.PACKER_IMAGE_DETAILS}"
   keep_os_disk                           = "false"
   managed_image_name                     = "${azurerm_shared_image.this.name}"
   managed_image_resource_group_name      = "${secrets.PACKER_BUILD_RESOURCE_GROUP}"
@@ -44,7 +44,7 @@ source "azure-arm" "this" {
   shared_image_gallery_destination {
     gallery_name         = "${azurerm_shared_image_gallery.this.name}"
     image_name           = "${azurerm_shared_image.this.name}"
-    image_version        = "${var.shared_image_version}"
+    image_version        = "${secrets.PACKER_IMAGE_DETAILS}"
     replication_regions  = "${var.replication_regions}"
     resource_group       = "${secrets.PACKER_SIG_RESOURCE_GROUP}"
     storage_account_type = "Standard_LRS"
