@@ -19,3 +19,9 @@ variable "image_details" {
   type        = map(string)
   description = "Image dettails, i.e. Publisher, Offer and SKU"
 }
+
+variable "replication_regions" {
+  type    = list(string)
+  default = ["Canada East"]
+  description = "Image replication regions."
+}

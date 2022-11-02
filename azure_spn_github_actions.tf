@@ -131,14 +131,14 @@ resource "github_actions_secret" "github_actions_azure_credentials" {
   )
 }
 
-# Export the names of both resource groups to GitHub secrets
-resource "github_actions_secret" "packer_sig_resource_group" {
-  repository      = local.github_name
-  secret_name     = "PACKER_SIG_RESOURCE_GROUP"
-  # checkov:skip=CKV_SECRET_6: Not an issue
-  # checkov:skip=CKV_GIT_4: Not an issue with this secret name
-  plaintext_value = azurerm_resource_group.packer_sig.name
-}
+# # Export the names of both resource groups to GitHub secrets
+# resource "github_actions_secret" "packer_sig_resource_group" {
+#   repository      = local.github_name
+#   secret_name     = "PACKER_SIG_RESOURCE_GROUP"
+#   # checkov:skip=CKV_SECRET_6: Not an issue
+#   # checkov:skip=CKV_GIT_4: Not an issue with this secret name
+#   plaintext_value = azurerm_resource_group.packer_sig.name
+# }
 
 resource "github_actions_secret" "packer_build_resource_group" {
   repository      = local.github_name
@@ -162,6 +162,24 @@ resource "github_actions_secret" "github_actions_image_details" {
       image_version = "1.0"
       managed_image_name = azurerm_shared_image.this.name
       image_name = azurerm_shared_image.this.name
+    }
+  )
+}
+
+# Export Shared Image Gallery details to GitHub secrets
+resource "github_actions_secret" "github_actions_sig_details" {
+  repository  = local.github_name
+  secret_name = "PACKER_SIG_DETAILS"
+  # checkov:skip=CKV_SECRET_6: Not an issue
+
+  plaintext_value = jsonencode(
+    {
+      gallery_name         = azurerm_shared_image_gallery.this.name
+      image_name           = azurerm_shared_image.this.name
+      replication_regions  = var.replication_regions
+      resource_group       = azurerm_resource_group.packer_sig.name
+      storage_account_type = "Standard_LRS"
+      subscription         = data.azurerm_subscription.this.subscription_id
     }
   )
 }

@@ -24,38 +24,38 @@ variable "build_resource_group_name" {
 
 variable "client_id" {
   type    = string
-#  default = "${env("ARM_CLIENT_ID")}"
+  default = "${env("PACKER_CLIENT_ID")}"
   description = "Azure Service Principal App ID."
 }
 
 variable "client_secret" {
   type      = string
-#  default   = "${env("ARM_CLIENT_SECRET")}"
+  default   = "${env("PACKER_CLIENT_SECRET")}"
   sensitive = true
   description = "Azure Service Principal Secret."
 }
 
 variable "image_offer" {
   type    = string
-  default = ""
+  default = "${env("PACKER_IMAGE_DETAILS")}"
   description = "Windows Image Offer."
 }
 
 variable "image_publisher" {
   type    = string
-  default = ""
+  default = "${env("PACKER_IMAGE_DETAILS")}"
   description = "Windows Image Publisher."
 }
 
 variable "image_sku" {
   type    = string
-  default = ""
+  default = "${env("PACKER_IMAGE_DETAILS")}"
   description = "Windows Image SKU."
 }
 
 variable "image_version" {
   type    = string
-  default = "latest"
+  default = "${env("PACKER_IMAGE_DETAILS")}"
   description = "Windows Image Version."
 }
 
@@ -73,44 +73,44 @@ variable "local_admins" {
 
 variable "managed_image_name"{
   type = string
-  default = "${env("SHARED_IMAGE_NAME")}"
+  default = "${env("PACKER_IMAGE_DETAILS")}"
   description = "Image name."
 }
 
-variable "managed_image_resource_group_name"{
-  type = string
-  default = "${env("PACKER_BUILD_RESOURCE_GROUP")}"
-  description = "Packer image build resource group."
+// variable "managed_image_resource_group_name"{
+//   type = string
+//   default = "${env("PACKER_BUILD_RESOURCE_GROUP")}"
+//   description = "Packer image build resource group."
+// }
+
+variable "shared_image_gallery_name" {
+  type    = string
+  default = "${env("PACKER_SIG_DETAILS")}"
 }
 
-// variable "shared_image_gallery_name" {
-//   type    = string
-//   default = "${env("SHARED_IMAGE_GALLERY_NAME")}"
-// }
-
-// variable "shared_image_gallery_rg" {
-//   type    = string
-//   default = "${env("SHARED_IMAGE_GALLERY_RG")}"
-// }
+variable "shared_image_gallery_rg" {
+  type    = string
+  default = "${env("PACKER_SIG_DETAILS")}"
+}
 
 variable "shared_image_name" {
   type    = string
-  default = "${env("SHARED_IMAGE_NAME")}"
+  default = "${env("PACKER_SIG_DETAILS")}"
 }
 
 variable "shared_image_version" {
   type    = string
-  default = "${env("SHARED_IMAGE_VERSION")}"
+  default = "${env("PACKER_IMAGE_DETAILS")}"
 }
 
 variable "subscription_id" {
   type    = string
-  default = "${env("ARM_SUBSCRIPTION_ID")}"
+  default = "${env("AZURE_CREDENTIALS")}"
 }
 
 variable "tenant_id" {
   type    = string
-  default = "${env("ARM_TENANT_ID")}"
+  default = "${env("AZURE_CREDENTIALS")}"
 }
 
 // variable "private_virtual_network_with_public_ip" {
@@ -154,35 +154,35 @@ locals {}
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "azure-arm" "this" {
-  build_resource_group_name              = "${secrets.PACKER_BUILD_RESOURCE_GROUP}"
-  client_id                              = "${secrets.PACKER_CLIENT_ID}"
-  client_secret                          = "${secrets.PACKER_CLIENT_SECRET}"
+  build_resource_group_name              = var.build_resource_group_name
+  client_id                              = var.client_id
+  client_secret                          = var.client_secret
   communicator                           = "winrm"
-  image_offer                            = "${secrets.PACKER_IMAGE_DETAILS}"
-  image_publisher                        = "${secrets.PACKER_IMAGE_DETAILS}"
-  image_sku                              = "${secrets.PACKER_IMAGE_DETAILS}"
-  image_version                          = "${secrets.PACKER_IMAGE_DETAILS}"
+  image_offer                            = var.image_offer
+  image_publisher                        = var.image_publisher
+  image_sku                              = var.image_sku
+  image_version                          = var.image_version
   keep_os_disk                           = "false"
-  managed_image_name                     = "${azurerm_shared_image.this.name}"
-  managed_image_resource_group_name      = "${secrets.PACKER_BUILD_RESOURCE_GROUP}"
+  managed_image_name                     = var.managed_image_name
+  managed_image_resource_group_name      = var.build_resource_group_name
   os_disk_size_gb                        = "127"
   os_type                                = "Windows"
 #  private_virtual_network_with_public_ip = "${var.private_virtual_network_with_public_ip}"
   shared_image_gallery_destination {
-    gallery_name         = "${azurerm_shared_image_gallery.this.name}"
-    image_name           = "${azurerm_shared_image.this.name}"
-    image_version        = "${secrets.PACKER_IMAGE_DETAILS}"
-    replication_regions  = "${var.replication_regions}"
-    resource_group       = "${secrets.PACKER_SIG_RESOURCE_GROUP}"
+    gallery_name         = var.shared_image_gallery_name
+    image_name           = var.managed_image_name
+    image_version        = var.image_version
+    replication_regions  = var.replication_regions
+    resource_group       = var.shared_image_gallery_rg
     storage_account_type = "Standard_LRS"
-    subscription         = "${secrets.PACKER_SUBSCRIPTION_ID}"
+    subscription         = var.subscription_id
   }
-  subscription_id                     = "${secrets.PACKER_SUBSCRIPTION_ID}"
-  tenant_id                           = "${secrets.PACKER_TENANT_ID}"
+  subscription_id                     = var.subscription_id
+  tenant_id                           = var.tenant_id
 #  virtual_network_name                = "${var.virtual_network_name}"
 #  virtual_network_resource_group_name = "${var.virtual_network_resource_group_name}"
 #  virtual_network_subnet_name         = "${var.virtual_network_subnet_name}"
-  vm_size                             = "${var.vm_size}"
+  vm_size                             = var.vm_size
   winrm_insecure                      = "true"
   winrm_timeout                       = "5m"
   winrm_use_ssl                       = "true"
