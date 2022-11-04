@@ -1,4 +1,4 @@
-# packer-windows-image
+# Packer Windows Image
 Automate building of custom Windows Image
 
 ## Assign Azure role to deployment SPN
