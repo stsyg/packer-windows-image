@@ -17,7 +17,6 @@ az role assignment create --assignee "{Azure SPN object ID}" \
 ```
 
 ## GitHub Action Secrets
-
 Create a Personal Access Token with write permissions to the repo. More information can be found here: https://docs.github.com/en/rest/actions/secrets#get-a-repository-public-key
 
 Set environment variables in Terraform and specify the following:
